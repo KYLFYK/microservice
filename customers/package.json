@@ -1,10 +1,10 @@
 {
-  "name": "customers",
+  "name": "cleverdeus-customers",
   "version": "0.0.1",
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "LICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
