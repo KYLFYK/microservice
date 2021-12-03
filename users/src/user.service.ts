@@ -1,4 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpStatus,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { User, UserModel } from './schemas/user.schema';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
@@ -16,10 +21,27 @@ export class UserService {
     this.userModel = this.connection.model('User') as UserModel<User>;
   }
 
-  async createUser(createUser: User.IUser) {
+  async createUser(
+    createUser: User.IUserCreateData,
+  ): Promise<User.IResponseData> {
+    let result;
+
     const user = new this.userModel(createUser);
     const userJSON = user.toJSON();
     const userObject = user.toObject();
-    return userJSON
+    try {
+      await user.save();
+      result = {
+        statusCode: HttpStatus.OK,
+        message: 'Пользователь был создан',
+      };
+    } catch (e) {
+      result = {
+        statusCode: HttpStatus.CONFLICT,
+        message: 'Пользователь с таким email уже существует',
+        errors: 'Conflict',
+      };
+    }
+    return result;
   }
 }

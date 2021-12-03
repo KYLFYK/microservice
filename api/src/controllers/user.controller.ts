@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpException,
   HttpStatus,
   Inject,
   Post,
@@ -21,10 +22,19 @@ export class UserController {
   @Post('/')
   @ApiResponse({ type: UserDto, status: HttpStatus.OK })
   async createUser(@Body() userData: UserDto): Promise<UserDto> {
-     const userResponse = await firstValueFrom(
-       this.userServiceClient.send('user_create', userData),
-     );
-     return userResponse;
-    return;
+    const userResponse = await firstValueFrom(
+      this.userServiceClient.send('user:create', userData),
+    );
+    if (userResponse.statusCode !== HttpStatus.CREATED) {
+      throw new HttpException(
+        {
+          statusCode: userResponse.statusCode,
+          message: userResponse.message,
+          errors: userResponse.errors,
+        },
+        userResponse.statusCode,
+      );
+    }
+    return userResponse;
   }
 }
