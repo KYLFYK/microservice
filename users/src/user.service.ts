@@ -20,6 +20,6 @@ export class UserService {
     const user = new this.userModel(createUser);
     const userJSON = user.toJSON();
     const userObject = user.toObject();
-    console.log(user);
+    return userJSON
   }
 }

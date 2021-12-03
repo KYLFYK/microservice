@@ -1,5 +1,5 @@
 FROM node:16
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 RUN mkdir -p /var/www/users
 WORKDIR /var/www/users
 ADD . /var/www/users

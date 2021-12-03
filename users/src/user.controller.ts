@@ -6,8 +6,9 @@ import { MessagePattern } from '@nestjs/microservices';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @MessagePattern('user.create')
-  async createUser(userData: User.IUser): Promise<any> {
+  @MessagePattern('user_create')
+  async createUser(userData: User.IUser): Promise<User.IUser> {
+
     return await this.userService.createUser(userData);
   }
 }

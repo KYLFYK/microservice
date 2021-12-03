@@ -21,10 +21,10 @@ export class UserController {
   @Post('/')
   @ApiResponse({ type: UserDto, status: HttpStatus.OK })
   async createUser(@Body() userData: UserDto): Promise<UserDto> {
-    // const userResponse = await firstValueFrom(
-    //   this.userServiceClient.send('user.create', {}),
-    // );
-    // return userResponse;
+     const userResponse = await firstValueFrom(
+       this.userServiceClient.send('user_create', userData),
+     );
+     return userResponse;
     return;
   }
 }

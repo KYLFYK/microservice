@@ -24,21 +24,6 @@ services:
         ipv4_address: 172.21.0.5
     links:
       - mongouserdb
-
-  user2:
-    build: ./users
-    restart: always
-    hostname: users
-    env_file:
-      - ./.env
-    ports:
-      - "4002:4002"
-    networks:
-      backend:
-        ipv4_address: 172.21.0.6
-    links:
-      - mongouserdb
-
   mongouserdb:
     image: 'mongo:latest'
     restart: always
