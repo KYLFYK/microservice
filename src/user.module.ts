@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtConfigService } from './providers/jwt.servises';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongoConfigService } from './providers/mongo.service';
+import { ConfigService } from './config/config.service';
 
 @Module({
   imports: [
@@ -33,6 +34,6 @@ import { MongoConfigService } from './providers/mongo.service';
     ]),
   ],
   controllers: [UserController, RolesController],
-  providers: [UserService, RolesService],
+  providers: [ConfigService, UserService, RolesService],
 })
 export class UserModule {}
