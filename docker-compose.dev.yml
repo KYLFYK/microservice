@@ -6,6 +6,8 @@ services:
     hostname: api
     env_file:
       - ./.env
+    volumes:
+      - ./:/api
     ports:
       - "4000:4000"
     networks:
@@ -17,6 +19,8 @@ services:
     hostname: users
     env_file:
       - ./.env
+    volumes:
+      - ./:/users
     ports:
      - "4001:4001"
     networks:
