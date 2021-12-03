@@ -3,6 +3,7 @@ import {
   HttpStatus,
   Injectable,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
 import { User, UserModel } from './schemas/user.schema';
 import { InjectConnection } from '@nestjs/mongoose';
@@ -21,6 +22,10 @@ export class UserService {
     this.userModel = this.connection.model('User') as UserModel<User>;
   }
 
+  /**
+   * Creating User
+   * @param {User.IUserCreateData} createUser
+   */
   async createUser(
     createUser: User.IUserCreateData,
   ): Promise<User.IResponseData> {
@@ -43,5 +48,23 @@ export class UserService {
       };
     }
     return result;
+  }
+
+  /**
+   * Update User Data
+   * @param {String} id
+   */
+  async updateUser(id: string, updateData: User.IUserUpdateData) {
+    const user = await this.userModel
+      .findOneAndUpdate({ _id: id }, updateData)
+      .exec();
+    if (!user) {
+      throw new NotFoundException('Указанный пользователь не найден');
+    }
+    return user;
+  }
+
+  async findAllUsers(): Promise<User.IUserResponseData[]> {
+    return await this.userModel.find().exec();
   }
 }

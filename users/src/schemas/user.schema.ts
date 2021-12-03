@@ -15,9 +15,6 @@ export class User extends Document {
 
   @Prop({ type: Array, default: [] })
   roles: string[];
-
-  @Prop({ type: Map, default: { name: 'Test' } })
-  test: Map<string, string>;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

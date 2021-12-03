@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { MessagePattern } from '@nestjs/microservices';
 
@@ -11,5 +11,18 @@ export class UserController {
     userData: User.IUserCreateData,
   ): Promise<User.IResponseData> {
     return await this.userService.createUser(userData);
+  }
+
+  @MessagePattern('user:update')
+  async updateUser(updateData: User.ISendUpdatedData) {
+    return await this.userService.updateUser(
+      updateData.userId,
+      updateData.data,
+    );
+  }
+
+  @MessagePattern('user:list')
+  async findAllUsers(): Promise<User.IUserResponseData[]> {
+    return await this.userService.findAllUsers();
   }
 }

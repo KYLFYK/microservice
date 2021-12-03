@@ -5,12 +5,14 @@ import {
   HttpException,
   HttpStatus,
   Inject,
+  Param,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserDto } from './dto/user.dto';
+import { UserUpdateDto, UserDto, UsersListDto } from './dto/user.dto';
 
 @ApiTags('User')
 @Controller('users')
@@ -36,5 +38,28 @@ export class UserController {
       );
     }
     return userResponse;
+  }
+
+  @Patch('/:id')
+  async updateUser(
+    @Param('id') id: string,
+    @Body() userData: UserUpdateDto,
+  ): Promise<UserUpdateDto> {
+    const sendData = {
+      userId: id,
+      data: userData,
+    };
+    const userResponse = await firstValueFrom(
+      this.userServiceClient.send('user:update', sendData),
+    );
+    return userResponse;
+  }
+
+  @Get('/')
+  async findAllUsers(): Promise<UsersListDto> {
+    const usersResponse = await firstValueFrom(
+      this.userServiceClient.send('user:list', true),
+    );
+    return usersResponse;
   }
 }
