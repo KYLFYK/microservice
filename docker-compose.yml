@@ -1,0 +1,67 @@
+version: '3'
+services:
+  api:
+    build: ./api
+    restart: always
+    hostname: api
+    env_file:
+      - ./.env
+    volumes:
+      - ./:/api
+    ports:
+      - "4000:4000"
+    networks:
+      backend:
+        ipv4_address: 172.21.0.3
+  user:
+    build: ./users
+    restart: always
+    hostname: users
+    env_file:
+      - ./.env
+    ports:
+     - "4001:4001"
+    networks:
+      backend:
+        ipv4_address: 172.21.0.5
+    links:
+      - mongouserdb
+
+  user2:
+    build: ./users
+    restart: always
+    hostname: users
+    env_file:
+      - ./.env
+    ports:
+      - "4002:4002"
+    networks:
+      backend:
+        ipv4_address: 172.21.0.6
+    links:
+      - mongouserdb
+
+  mongouserdb:
+    image: 'mongo:latest'
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: 'cleveruser'
+      MONGO_USER: ${MONGO_USER}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - "./db/data/db-files:/data/db"
+      - "./db/init/:/docker-entrypoint-initdb.d/"
+    ports:
+      - 27117:27017
+    networks:
+      backend:
+        ipv4_address: 172.21.0.20
+networks:
+  backend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+          gateway: 172.21.0.1

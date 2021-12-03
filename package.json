@@ -1,6 +1,6 @@
 {
   "name": "microservice",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "NestJS + MongoDb + Microservice",
   "main": "index.js",
   "scripts": {
