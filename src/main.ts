@@ -1,12 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import * as fs from "fs";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   const config = new DocumentBuilder()
       .setTitle('Cleverdeus REST API')
-      .setDescription('The API description')
+      .setDescription(fs.readFileSync('./docs/api.md').toString())
       .setVersion('1.0.0')
       .addTag('api')
       .build();
