@@ -1,16 +1,17 @@
 {
   "name": "microservice",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "NestJS + MongoDb + Microservice",
-  "main": "index.js",
+  "main": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install"
   },
-  "author": {
-    "team": "Cleverdeus Team",
-    "AlexanderHunter": "Alexander"
-  },
+  "contributors": [
+    {
+      "name": "Alexander Hunter",
+      "email": "icehuntmen@gmail.com"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "husky": "^7.0.4",

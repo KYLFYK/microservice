@@ -7,7 +7,7 @@ services:
     env_file:
       - ./.env
     volumes:
-      - ./:/api
+      - ./api
     ports:
       - "4000:4000"
     networks:
