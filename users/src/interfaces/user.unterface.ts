@@ -8,7 +8,7 @@ namespace User {
   export interface IUser {
     email: string;
     password: string;
-    type: KindUser;
+    roles: string[];
   }
 
   export type KindUser = 'Admin' | 'Guest';

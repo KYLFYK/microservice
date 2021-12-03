@@ -1,4 +1,11 @@
-import { Controller, Get, HttpStatus, Inject } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Inject,
+  Post,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -11,13 +18,13 @@ export class UserController {
     @Inject('USER_SERVICE') private readonly userServiceClient: ClientProxy,
   ) {}
 
-  @Get()
+  @Post('/')
   @ApiResponse({ type: UserDto, status: HttpStatus.OK })
-  async getData(): Promise<UserDto> {
-    const userResponse = await firstValueFrom(
-      this.userServiceClient.send('user.hello', { name: 'Ruslana' }),
-    );
-
-    return userResponse;
+  async createUser(@Body() userData: UserDto): Promise<UserDto> {
+    // const userResponse = await firstValueFrom(
+    //   this.userServiceClient.send('user.create', {}),
+    // );
+    // return userResponse;
+    return;
   }
 }

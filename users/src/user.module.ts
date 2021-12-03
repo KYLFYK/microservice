@@ -9,6 +9,9 @@ import { JwtConfigService } from './providers/jwt.servises';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongoConfigService } from './providers/mongo.service';
 import { ConfigService } from './config/config.service';
+import { UserSchema } from './schemas/user.schema';
+import { RolesSchema } from './schemas/roles.schema';
+import { UserProvider } from './schemas/user.provider';
 
 @Module({
   imports: [
@@ -22,16 +25,7 @@ import { ConfigService } from './config/config.service';
     MongooseModule.forRootAsync({
       useClass: MongoConfigService,
     }),
-    MongooseModule.forFeature([
-      {
-        name: 'User',
-        schema: 'UserSchema', // TODO: Сделать объектом
-      },
-      {
-        name: 'Roles',
-        schema: 'RolesSchema', // TODO: Сделать объектом
-      },
-    ]),
+    MongooseModule.forFeatureAsync([UserProvider]),
   ],
   controllers: [UserController, RolesController],
   providers: [ConfigService, UserService, RolesService],
